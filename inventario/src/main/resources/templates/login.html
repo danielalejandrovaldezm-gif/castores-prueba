@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+</head>
+<body>
+  <h2>Bienvenido al sistema de inventario</h2>
+
+  <div th:if="${param.error}">
+    <p style="color:red">Usuario o contraseña incorrectos</p>
+  </div>
+  <div th:if="${param.logout}">
+    <p style="color:green">Sesión cerrada</p>
+  </div>
+
+<form th:action="@{/login}" method="post">
+  <input type="text" name="correo" placeholder="Correo" required>
+  <input type="password" name="password" placeholder="Contraseña" required>
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+  <button type="submit">Entrar</button>
+</form>
+<div th:if="${param.logout}">
+    <p style="color: green;">Has cerrado sesión correctamente.</p>
+</div>
+</body>
+</html>

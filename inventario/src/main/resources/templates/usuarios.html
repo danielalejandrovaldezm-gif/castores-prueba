@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuarios</title>
+</head>
+<body>
+    <h1>Usuarios</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Estatus</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario != null ? usuario.idUsuario : 'N/A'}"></td>
+                <td th:text="${usuario != null ? usuario.nombre : 'N/A'}"></td>
+                <td th:text="${usuario != null ? usuario.correo : 'N/A'}"></td>
+                <td th:text="${usuario != null ? usuario.estatus : 'N/A'}"></td>
+                <td th:text="${usuario != null && usuario.rol != null ? usuario.rol.nombre : 'Sin rol'}"></td>
+                <td>
+                    <!-- Botón Editar -->
+                    <a th:href="@{'/usuarios/editar/' + ${usuario.idUsuario}}">Editar</a> |
+
+                    <!-- Botón Eliminar -->
+                    <a th:href="@{'/usuarios/eliminar/' + ${usuario.idUsuario}}"
+                       onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    
+    <a th:href="@{/usuarios/nuevo}">Nuevo Usuario</a>
+    <br><br>
+    <a th:href="@{/}">Volver al inicio</a>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${modoEdicion} ? 'Editar usuario' : 'Nuevo usuario'">Usuario</title>
+</head>
+<body>
+<h2 th:text="${usuario.idUsuario == null} ? 'Nuevo Usuario' : 'Editar Usuario'"></h2>
+
+<form th:action="${usuario.idUsuario == null} ? @{/usuarios/guardar} : @{/usuarios/actualizar/{id}(id=${usuario.idUsuario})}"
+      th:object="${usuario}" 
+      method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    <label>Nombre:</label><br/>
+    <input type="text" th:field="*{nombre}" required /><br/><br/>
+
+    <label>Correo:</label><br/>
+    <input type="email" th:field="*{correo}" required /><br/><br/>
+
+    <label>Contraseña:</label><br/>
+    <input type="password" th:field="*{contrasena}" th:placeholder="${modoEdicion} ? 'Deja en blanco para conservar' : ''" /><br/>
+    <small th:if="${modoEdicion}">Deja vacío para conservar la contraseña actual.</small>
+    <br/><br/>
+
+    <label for="rol">Rol:</label>
+    <select th:field="*{rol.idRol}" required>
+        <option th:each="r : ${roles}"
+                th:value="${r.idRol}"
+                th:text="${r.nombre}"
+                th:selected="${usuario.rol != null} ? ${r.idRol == usuario.rol.idRol} : false">
+        </option>
+    </select><br/><br/>
+
+    <label>Estatus:</label><br/>
+    <select th:field="*{estatus}">
+        <option value="1" th:selected="${usuario.estatus == '1'}">Activo</option>
+        <option value="0" th:selected="${usuario.estatus == '0'}">Inactivo</option>
+    </select><br/><br/>
+
+    <button type="submit" th:text="${modoEdicion} ? 'Actualizar' : 'Guardar'">Guardar</button>
+    &nbsp; <a th:href="@{/usuarios}">Cancelar</a>
+</form>
+
+</body>
+</html>

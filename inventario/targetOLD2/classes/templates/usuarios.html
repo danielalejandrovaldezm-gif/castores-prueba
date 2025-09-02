@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Usuarios</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h1>Usuarios</h1>
+
+<div th:if="${ok}" style="color: green;" th:text="${ok}"></div>
+<div th:if="${error}" style="color: red;" th:text="${error}"></div>
+
+<a th:href="@{/usuarios/nuevo}">+ Nuevo usuario</a>
+&nbsp;|&nbsp;
+<a th:href="@{/}">← Inicio</a>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Estatus</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u : ${usuarios}">
+        <td th:text="${u.idUsuario}">1</td>
+        <td th:text="${u.nombre}">Nombre</td>
+        <td th:text="${u.correo}">correo@correo.com</td>
+        <td th:text="${u.rol != null ? u.rol.nombre : '—'}">ROL</td>
+        <td th:text="${u.estatus == '1' ? 'Activo' : 'Inactivo'}">Activo</td>
+        <td>
+            <a th:href="@{|/usuarios/editar/${u.idUsuario}|}">Editar</a>
+            <form th:action="@{|/usuarios/eliminar/${u.idUsuario}|}" method="post" style="display:inline;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" onclick="return confirm('¿Eliminar usuario?')">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
