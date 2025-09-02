@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${#lists.isEmpty(producto.idProducto) ? 'Nuevo Producto' : 'Editar Producto'}"></title>
+</head>
+<body>
+    <h1 th:text="${#lists.isEmpty(producto.idProducto) ? 'Nuevo Producto' : 'Editar Producto'}"></h1>
+
+    <form th:action="@{/productos/guardar}" th:object="${producto}" method="post">
+        <input type="hidden" th:field="*{idProducto}" />
+
+        <label>Nombre:</label>
+        <input type="text" th:field="*{nombre}" required/><br/>
+
+        <label>Precio:</label>
+        <input type="number" step="0.01" th:field="*{precio}" required/><br/>
+
+        <label>Stock:</label>
+        <input type="number" th:field="*{stock}" min="0"/><br/>
+
+        <button type="submit">💾 Guardar</button>
+        <a th:href="@{/productos}">Cancelar</a>
+    </form>
+</body>
+</html>

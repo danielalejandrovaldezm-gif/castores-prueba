@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movimientos de Inventario</title>
+</head>
+<body>
+<h1>📊 Movimientos de Inventario</h1>
+
+<a th:href="@{/movimientos/nuevo}">➕ Registrar nuevo movimiento</a> |
+<a th:href="@{/}">🏠 Volver al inicio</a>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Tipo</th>
+            <th>Cantidad</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="mov : ${movimientos}">
+            <td th:text="${mov.idMovimiento}"></td>
+            <td th:text="${mov.producto.nombre}"></td>
+            <td th:text="${mov.tipo}"></td>
+            <td th:text="${mov.cantidad}"></td>
+            <td th:text="${#temporals.format(mov.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Movimientos de Inventario</title>
+</head>
+<body>
+<h1>Movimientos de Inventario</h1>
+
+<a th:href="@{/}">⟵ Volver al menú</a>
+<p th:if="${param.ok}">✅ Movimiento registrado.</p>
+
+<form th:action="@{/movimientos/guardar}" method="post" th:object="${movimiento}">
+  <!-- CSRF -->
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+  <label>Producto:</label>
+  <select th:field="*{producto.idProducto}" required>
+    <option value="" disabled selected>-- Selecciona --</option>
+    <option th:each="p : ${productos}"
+            th:value="${p.idProducto}"
+            th:text="${p.nombre + ' (stock: ' + p.stock + ')'}"></option>
+  </select>
+  <br/>
+
+  <label>Tipo:</label>
+  <select th:field="*{tipo}" required>
+    <option value="ENTRADA">ENTRADA</option>
+    <option value="SALIDA">SALIDA</option>
+  </select>
+  <br/>
+
+  <label>Cantidad:</label>
+  <input type="number" min="1" th:field="*{cantidad}" required/>
+  <span th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"></span>
+  <br/>
+
+  <label>Concepto:</label>
+  <input type="text" th:field="*{concepto}" placeholder="Compra, ajuste, venta, etc."/>
+  <br/>
+
+  <button type="submit">Guardar movimiento</button>
+</form>
+
+<hr/>
+
+<h2>Historial</h2>
+<table border="1" cellpadding="5">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Fecha/Hora</th>
+    <th>Producto</th>
+    <th>Tipo</th>
+    <th>Cantidad</th>
+    <th>Concepto</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="m : ${movimientos}">
+    <td th:text="${m.idMovimiento}"></td>
+    <td th:text="${m.fechaHora}"></td>
+    <td th:text="${m.producto != null ? m.producto.nombre : 'N/D'}"></td>
+    <td th:text="${m.tipo}"></td>
+    <td th:text="${m.cantidad}"></td>
+    <td th:text="${m.concepto}"></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

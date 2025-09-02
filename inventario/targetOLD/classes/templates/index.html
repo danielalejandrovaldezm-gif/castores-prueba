@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Inventario</title>
+</head>
+<body>
+    <h1>Bienvenido al Sistema de Inventario</h1>
+    <p>Has iniciado sesión correctamente</p>
+
+    <h2>Menú Principal</h2>
+    <ul>
+        <li sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/usuarios}">📦 Gestionar usuarios</a>
+        </li>
+        <li><a th:href="@{/movimientos}">📊 Movimientos de Inventario</a></li>
+        <li>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">🚪 Cerrar Sesión</button>
+            </form>
+        </li>
+        <li sec:authorize="hasRole('ADMIN')">
+          <a th:href="@{/usuarios}">Gestionar usuarios</a>
+        </li>
+    </ul>
+</body>
+</html>
